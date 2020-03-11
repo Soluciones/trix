@@ -57,14 +57,15 @@ class Trix.AttachmentEditorController extends Trix.BasicObject
       name = escapeHTML(@attachment.getFilename())
       size = escapeHTML(@attachment.getFormattedFilesize())
 
-      element.innerHTML += """
-        <div class="#{css.attachmentMetadataContainer}">
-          <span class="#{css.attachmentMetadata}">
-            <span class="#{css.attachmentName}" title="#{name}">#{name}</span>
-            <span class="#{css.attachmentSize}">#{size}</span>
-          </span>
-        </div>
-      """
+      if name || size
+        element.innerHTML += """
+          <div class="#{css.attachmentMetadataContainer}">
+            <span class="#{css.attachmentMetadata}">
+              <span class="#{css.attachmentName}" title="#{name}">#{name}</span>
+              <span class="#{css.attachmentSize}">#{size}</span>
+            </span>
+          </div>
+        """
 
     handleEvent("click", onElement: element, withCallback: @didClickToolbar)
     handleEvent("click", onElement: element, matchingSelector: "[data-trix-action]", withCallback: @didClickActionButton)
