@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /*
-Trix 1.2.3
+Trix 1.2.31
 Copyright © 2020 Basecamp, LLC
 http://trix-editor.org/*/
 trix-editor {
@@ -181,11 +181,14 @@ trix-editor [data-trix-mutable].attachment__caption-editor:focus::-moz-selection
 trix-editor [data-trix-mutable].attachment__caption-editor:focus::selection {
   background: highlight; }
 
-trix-editor [data-trix-mutable].attachment.attachment--file {
-  box-shadow: 0 0 0 2px highlight;
-  border-color: transparent; }
-trix-editor [data-trix-mutable].attachment img {
+trix-editor [data-trix-mutable].attachment {
   box-shadow: 0 0 0 2px highlight; }
+  trix-editor [data-trix-mutable].attachment.attachment--file {
+    border-color: transparent; }
+  trix-editor [data-trix-mutable].attachment--preview {
+    box-shadow: inherit; }
+    trix-editor [data-trix-mutable].attachment--preview img {
+      box-shadow: 0 0 0 2px highlight; }
 trix-editor .attachment {
   position: relative; }
   trix-editor .attachment:hover {
@@ -335,10 +338,10 @@ trix-editor .attachment__metadata {
     max-width: 100%;
     margin: 0;
     padding: 0; }
-    .trix-content .attachment a {
+    .trix-content .attachment--preview a {
       color: inherit;
       text-decoration: none; }
-      .trix-content .attachment a:hover, .trix-content .attachment a:visited:hover {
+      .trix-content .attachment--preview a:hover, .trix-content .attachment--preview a:visited:hover {
         color: inherit; }
   .trix-content .attachment__caption {
     padding: 0;
