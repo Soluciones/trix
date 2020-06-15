@@ -21,13 +21,18 @@ trix-editor {
     }
 
     &.attachment {
+      box-shadow: 0 0 0 2px highlight;
+
       &.attachment--file {
-        box-shadow: 0 0 0 2px highlight;
         border-color: transparent;
       }
 
-      img {
-        box-shadow: 0 0 0 2px highlight;
+      &--preview {
+        box-shadow: inherit;
+
+        & img {
+          box-shadow: 0 0 0 2px highlight;
+        }
       }
     }
   }
