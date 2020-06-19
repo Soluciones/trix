@@ -80,6 +80,10 @@ class Trix.PieceView extends Trix.ObjectView
       if config.groupTagName
         attributes = {}
         attributes[key] = value
+
+        if config.groupTagName is "a"
+          attributes["class"] = "rnk-Link"
+
         return makeElement(config.groupTagName, attributes)
 
   nbsp = Trix.NON_BREAKING_SPACE
