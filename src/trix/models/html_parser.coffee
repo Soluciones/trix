@@ -288,17 +288,26 @@ class Trix.HTMLParser extends Trix.BasicObject
     if element = @blockElements[index]
       if element.textContent
         unless tagName(element) in getBlockTagNames() or element in @processedElements
-          getBlockElementMargin(element)
+          @getBlockElementMargin(element)
 
   getMarginOfDefaultBlockElement: ->
     element = makeElement(Trix.config.blockAttributes.default.tagName)
     @containerElement.appendChild(element)
-    getBlockElementMargin(element)
+    @getBlockElementMargin(element)
 
-  getBlockElementMargin = (element) ->
+  getBlockElementMargin: (element) ->
     style = window.getComputedStyle(element)
+
     if style.display is "block"
-      top: parseInt(style.marginTop), bottom: parseInt(style.marginBottom)
+      if tagName(element) is "p"
+        {previousElementSibling, nextElementSibling} = element
+
+        top = parseInt(style.marginTop) if @isBlockElement(previousElementSibling) and tagName(previousElementSibling) isnt "p"
+        bottom = parseInt(style.marginBottom) if @isBlockElement(nextElementSibling)
+
+        top: top, bottom: bottom
+      else
+        top: parseInt(style.marginTop), bottom: parseInt(style.marginBottom)
 
   # Whitespace
 
