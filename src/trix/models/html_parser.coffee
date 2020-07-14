@@ -121,9 +121,13 @@ class Trix.HTMLParser extends Trix.BasicObject
             @appendStringWithAttributes("\n", @getTextAttributes(element))
           @processedElements.push(element)
         when "img"
-          attributes = url: element.getAttribute("src"), contentType: "image"
-          attributes[key] = value for key, value of getImageDimensions(element)
-          @appendAttachmentWithAttributes(attributes, @getTextAttributes(element))
+          if Trix.config.parseTables and @isInsideTable(element)
+            attributes = content: element.outerHTML, staticContent: element.outerHTML, contentType: "application/vnd.rubyonrails.static-image.html"
+            @appendAttachmentWithAttributes(attributes, @getTextAttributes(element))
+          else
+            attributes = url: element.getAttribute("src"), contentType: "image"
+            attributes[key] = value for key, value of getImageDimensions(element)
+            @appendAttachmentWithAttributes(attributes, @getTextAttributes(element))
           @processedElements.push(element)
         when "tr"
           unless element.parentNode.firstChild is element
