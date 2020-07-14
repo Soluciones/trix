@@ -131,6 +131,20 @@ class Trix.HTMLParser extends Trix.BasicObject
         when "td"
           unless element.parentNode.firstChild is element
             @appendStringWithAttributes(" | ")
+        when "table"
+          if Trix.config.parseTables
+            unless @isInsideTable(element)
+              element.removeAttribute("style")
+              for el in element.querySelectorAll("tr")
+                el.removeAttribute("style")
+              for el in element.querySelectorAll("th, td")
+                el.removeAttribute("style")
+                el.innerHTML = Trix.DocumentView.render(Trix.Document.fromHTML(el.innerHTML, referenceElement: el)).innerHTML
+              attributes = content: element.outerHTML, staticContent: element.outerHTML, contentType: "application/vnd.rubyonrails.table.html"
+              @appendAttachmentWithAttributes(attributes, @getTextAttributes(element))
+            # We have everything we need so avoid processing inner nodes
+            element.innerHTML = ""
+            @processedElements.push(element)
 
   # Document construction
 
@@ -264,6 +278,9 @@ class Trix.HTMLParser extends Trix.BasicObject
     tagName(element) is "br" and
       @isBlockElement(element.parentNode) and
       element.parentNode.lastChild is element
+
+  isInsideTable: (element) ->
+    element.closest("tr")
 
   elementCanDisplayPreformattedText = (element) ->
     {whiteSpace} = window.getComputedStyle(element)
