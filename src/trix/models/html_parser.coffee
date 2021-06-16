@@ -108,6 +108,13 @@ class Trix.HTMLParser extends Trix.BasicObject
   processElement: (element) ->
     if nodeIsAttachmentElement(element)
       attributes = getAttachmentAttributes(element)
+
+      if tagName(element) == 'figure' && @isInsideTable(element)
+        trixAttachmentAttributes = JSON.parse(element.dataset.trixAttachment)
+        delete trixAttachmentAttributes.href
+        delete attributes.href
+        element.dataset.trixAttachment = JSON.stringify(trixAttachmentAttributes)
+
       if Object.keys(attributes).length
         textAttributes = @getTextAttributes(element)
         @appendAttachmentWithAttributes(attributes, textAttributes)
