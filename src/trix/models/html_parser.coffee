@@ -109,7 +109,7 @@ class Trix.HTMLParser extends Trix.BasicObject
     if nodeIsAttachmentElement(element)
       attributes = getAttachmentAttributes(element)
 
-      if tagName(element) is "figure" and @isInsideTable(element)
+      if @isInsideTable(element) and tagName(element) is "figure"
         delete attributes.href
 
       if Object.keys(attributes).length
